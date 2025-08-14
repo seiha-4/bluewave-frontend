@@ -32,3 +32,18 @@ export const postQuery = defineQuery(`
     ${postFields}
   }
 `);
+
+const pageFields = /* groq */ `
+  _id,
+  "status": select(_originalId in path("drafts.**") => "draft", "published"),
+  "title": coalesce(title, "Untitled"),
+  "slug": slug.current,
+  body,
+  "date": coalesce(publishedAt, _updatedAt),
+`;
+
+export const pageQuery = defineQuery(`
+  *[_type == "page" && slug.current == $slug] [0] {
+    ${pageFields}
+  }
+`);

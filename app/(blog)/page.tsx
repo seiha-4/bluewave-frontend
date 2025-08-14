@@ -83,6 +83,16 @@ export default async function Page() {
 
   return (
     <div className="container mx-auto px-5">
+      {/* Blog Title Header */}
+      <header className="text-center py-12 border-b border-gray-200 mb-16">
+        <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4">
+          成長と幸せのブログ
+        </h1>
+        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          毎日をより良く、より豊かにするためのヒントをお届けします
+        </p>
+      </header>
+      
       <Intro title={settings?.title} description={settings?.description} />
       {heroPost ? (
         <HeroPost
