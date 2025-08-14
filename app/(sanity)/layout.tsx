@@ -1,6 +1,7 @@
 import "../globals.css";
 
 import { Inter } from "next/font/google";
+import { Suspense } from "react";
 import GoogleAnalytics from "../components/GoogleAnalytics";
 import PageViewTracker from "../components/PageViewTracker";
 
@@ -21,7 +22,9 @@ export default function RootLayout({
     <html lang="en" className={inter.variable}>
       <body className="min-h-screen">
         <GoogleAnalytics />
-        <PageViewTracker />
+        <Suspense fallback={null}>
+          <PageViewTracker />
+        </Suspense>
         {children}
       </body>
     </html>

@@ -9,6 +9,7 @@ import {
 } from "next-sanity";
 import { Inter } from "next/font/google";
 import { draftMode } from "next/headers";
+import { Suspense } from "react";
 
 import AlertBanner from "./alert-banner";
 import PortableText from "./portable-text";
@@ -70,7 +71,9 @@ export default async function RootLayout({
     <html lang="en" className={`${inter.variable} bg-white text-black`}>
       <body>
         <GoogleAnalytics />
-        <PageViewTracker />
+        <Suspense fallback={null}>
+          <PageViewTracker />
+        </Suspense>
         <section className="min-h-screen">
           {isDraftMode && <AlertBanner />}
           <main>{children}</main>
