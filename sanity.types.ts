@@ -477,7 +477,7 @@ export type AllSanitySchemaTypes = Category | Page | Post | Author | Settings | 
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./app/(blog)/[slug]/page.tsx
 // Variable: pageSlugs
-// Query: *[_type == "page" && defined(slug.current)]{"slug": slug.current}
+// Query: *[_type == "page" && defined(slug.current)]{'slug': slug.current}
 export type PageSlugsResult = Array<{
   slug: string | null;
 }>;
@@ -738,7 +738,7 @@ export type PageQueryResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"page\" && defined(slug.current)]{\"slug\": slug.current}": PageSlugsResult;
+    "*[_type == \"page\" && defined(slug.current)]{'slug': slug.current}": PageSlugsResult;
     "*[_type == \"post\" && defined(slug.current)]{\"slug\": slug.current}": PostSlugsResult;
     "*[_type == \"settings\"][0]": SettingsQueryResult;
     "\n  *[_type == \"post\" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {\n    body,\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": HeroQueryResult;
