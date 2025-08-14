@@ -45,28 +45,47 @@ function HeroPost({
   "title" | "coverImage" | "date" | "excerpt" | "author" | "slug"
 >) {
   return (
-    <article>
-      <Link className="group mb-8 block md:mb-16" href={`/posts/${slug}`}>
-        <CoverImage image={coverImage} priority />
+    <article className="card max-w-4xl mx-auto overflow-hidden">
+      <Link className="group block" href={`/posts/${slug}`}>
+        <div className="aspect-video overflow-hidden rounded-t-xl">
+          <CoverImage image={coverImage} priority />
+        </div>
       </Link>
-      <div className="mb-20 md:mb-28 md:grid md:grid-cols-2 md:gap-x-16 lg:gap-x-8">
-        <div>
-          <h3 className="text-pretty mb-4 text-4xl leading-tight lg:text-6xl">
-            <Link href={`/posts/${slug}`} className="hover:underline">
-              {title}
-            </Link>
-          </h3>
-          <div className="mb-4 text-lg md:mb-0">
+      <div className="p-8">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center space-x-2">
+            <span className="bg-primary-100 text-primary-800 text-xs font-semibold px-3 py-1 rounded-full">
+              注目記事
+            </span>
             <DateComponent dateString={date} />
           </div>
         </div>
-        <div>
-          {excerpt && (
-            <p className="text-pretty mb-4 text-lg leading-relaxed">
-              {excerpt}
-            </p>
+        
+        <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 leading-tight text-gray-900">
+          <Link href={`/posts/${slug}`} className="hover:text-primary-600 transition-colors duration-200">
+            {title}
+          </Link>
+        </h3>
+        
+        {excerpt && (
+          <p className="text-gray-600 text-lg leading-relaxed mb-6 line-clamp-3">
+            {excerpt}
+          </p>
+        )}
+        
+        <div className="flex items-center justify-between">
+          {author && (
+            <div className="flex items-center space-x-3">
+              <Avatar name={author.name} picture={author.picture} />
+              <span className="text-sm text-gray-500">by {author.name}</span>
+            </div>
           )}
-          {author && <Avatar name={author.name} picture={author.picture} />}
+          <Link 
+            href={`/posts/${slug}`}
+            className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 text-sm"
+          >
+            記事を読む →
+          </Link>
         </div>
       </div>
     </article>
@@ -82,40 +101,101 @@ export default async function Page() {
   ]);
 
   return (
-    <div className="container mx-auto px-5">
-      {/* Blog Title Header */}
-      <header className="text-center py-12 border-b border-gray-200 mb-16">
-        <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4">
-          成長と幸せのブログ
-        </h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-          毎日をより良く、より豊かにするためのヒントをお届けします
-        </p>
+    <div className="min-h-screen bg-gradient-to-br from-accent-1 via-white to-secondary-50">
+      {/* Modern Header with Navigation */}
+      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200 shadow-soft">
+        <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-8">
+              <h1 className="text-2xl font-bold text-gradient">
+                BlueWave24
+              </h1>
+              <div className="hidden md:flex space-x-6">
+                <a href="/" className="text-gray-700 hover:text-primary-600 font-medium">ホーム</a>
+                <a href="/audible" className="text-gray-700 hover:text-primary-600 font-medium">Audible</a>
+                <a href="#" className="text-gray-700 hover:text-primary-600 font-medium">記事</a>
+                <a href="#" className="text-gray-700 hover:text-primary-600 font-medium">お問い合わせ</a>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <a 
+                href="/audible"
+                className="btn-primary text-sm"
+              >
+                Audible無料体験
+              </a>
+            </div>
+          </div>
+        </nav>
       </header>
-      
-      <Intro title={settings?.title} description={settings?.description} />
-      {heroPost ? (
-        <HeroPost
-          title={heroPost.title}
-          slug={heroPost.slug}
-          coverImage={heroPost.coverImage}
-          excerpt={heroPost.excerpt}
-          date={heroPost.date}
-          author={heroPost.author}
-        />
-      ) : (
-        <Onboarding />
-      )}
-      {heroPost?._id && (
-        <aside>
-          <h2 className="mb-8 text-6xl font-bold leading-tight tracking-tighter md:text-7xl">
-            More Stories
-          </h2>
-          <Suspense>
-            <MoreStories skip={heroPost._id} limit={100} />
-          </Suspense>
-        </aside>
-      )}
+
+      {/* Hero Section */}
+      <section className="section-padding hero-gradient">
+        <div className="container mx-auto container-padding text-center text-white">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+              <span className="block">成長と幸せの</span>
+              <span className="block text-yellow-100">ブログ</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-yellow-100 mb-8 leading-relaxed max-w-3xl mx-auto">
+              毎日をより良く、より豊かにするためのヒントをお届けします。
+              <br className="hidden md:block" />
+              自己成長、読書、そして幸せな人生について一緒に学びましょう。
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <a href="/audible" className="btn-primary bg-white text-primary-600 hover:bg-gray-100 hover:text-primary-700">
+                📚 Audible無料体験を始める
+              </a>
+              <a href="#posts" className="text-white hover:text-yellow-200 font-semibold underline underline-offset-4">
+                記事を読む
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="container mx-auto container-padding">
+        {/* Featured Post Section */}
+        {heroPost ? (
+          <section id="posts" className="section-padding">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                注目の記事
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                最新の記事をチェックして、あなたの成長に役立つ情報を見つけてください
+              </p>
+            </div>
+            <div className="max-w-4xl mx-auto">
+              <HeroPost
+                title={heroPost.title}
+                slug={heroPost.slug}
+                coverImage={heroPost.coverImage}
+                excerpt={heroPost.excerpt}
+                date={heroPost.date}
+                author={heroPost.author}
+              />
+            </div>
+          </section>
+        ) : (
+          <Onboarding />
+        )}
+
+        {/* More Stories Section */}
+        {heroPost?._id && (
+          <section className="pb-20">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                その他の記事
+              </h2>
+              <div className="w-24 h-1 bg-gradient-to-r from-primary-400 to-secondary-400 mx-auto rounded-full"></div>
+            </div>
+            <Suspense>
+              <MoreStories skip={heroPost._id} limit={100} />
+            </Suspense>
+          </section>
+        )}
+      </div>
     </div>
   );
 }

@@ -77,31 +77,85 @@ export default async function RootLayout({
         <section className="min-h-screen">
           {isDraftMode && <AlertBanner />}
           <main>{children}</main>
-          <footer className="bg-accent-1 border-accent-2 border-t">
-            <div className="container mx-auto px-5">
+          <footer className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
               {footer.length > 0 ? (
                 <PortableText
-                  className="prose-sm text-pretty bottom-0 w-full max-w-none bg-white py-12 text-center md:py-20"
+                  className="prose-sm text-pretty bottom-0 w-full max-w-none py-12 text-center md:py-20 text-gray-300"
                   value={footer as PortableTextBlock[]}
                 />
               ) : (
-                <div className="flex flex-col items-center py-28 lg:flex-row">
-                  <h3 className="mb-10 text-center text-4xl font-bold leading-tight tracking-tighter lg:mb-0 lg:w-1/2 lg:pr-4 lg:text-left lg:text-5xl">
-                    Built with Next.js.
-                  </h3>
-                  <div className="flex flex-col items-center justify-center lg:w-1/2 lg:flex-row lg:pl-4">
-                    <a
-                      href="https://nextjs.org/docs"
-                      className="mx-3 mb-6 border border-black bg-black py-3 px-12 font-bold text-white transition-colors duration-200 hover:bg-white hover:text-black lg:mb-0 lg:px-8"
-                    >
-                      Read Documentation
-                    </a>
-                    <a
-                      href="https://github.com/vercel/next.js/tree/canary/examples/cms-sanity"
-                      className="mx-3 font-bold hover:underline"
-                    >
-                      View on GitHub
-                    </a>
+                <div className="py-16">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                    {/* Brand Section */}
+                    <div className="space-y-4">
+                      <h3 className="text-2xl font-bold text-gradient bg-gradient-to-r from-primary-400 to-secondary-400 bg-clip-text text-transparent">
+                        BlueWave24
+                      </h3>
+                      <p className="text-gray-300 leading-relaxed">
+                        成長と幸せのブログ。毎日をより良く、より豊かにするためのヒントをお届けします。
+                      </p>
+                      <div className="flex space-x-4">
+                        <a href="#" className="text-gray-400 hover:text-primary-400 transition-colors duration-200">
+                          <span className="sr-only">Twitter</span>
+                          🐦
+                        </a>
+                        <a href="#" className="text-gray-400 hover:text-secondary-400 transition-colors duration-200">
+                          <span className="sr-only">Facebook</span>
+                          📘
+                        </a>
+                        <a href="#" className="text-gray-400 hover:text-primary-400 transition-colors duration-200">
+                          <span className="sr-only">Instagram</span>
+                          📷
+                        </a>
+                      </div>
+                    </div>
+
+                    {/* Quick Links */}
+                    <div className="space-y-4">
+                      <h4 className="text-lg font-semibold text-white">クイックリンク</h4>
+                      <ul className="space-y-2">
+                        <li><a href="/" className="text-gray-300 hover:text-primary-400 transition-colors duration-200">ホーム</a></li>
+                        <li><a href="/audible" className="text-gray-300 hover:text-primary-400 transition-colors duration-200">Audible無料体験</a></li>
+                        <li><a href="#" className="text-gray-300 hover:text-primary-400 transition-colors duration-200">記事一覧</a></li>
+                        <li><a href="#" className="text-gray-300 hover:text-primary-400 transition-colors duration-200">お問い合わせ</a></li>
+                      </ul>
+                    </div>
+
+                    {/* Newsletter */}
+                    <div className="space-y-4">
+                      <h4 className="text-lg font-semibold text-white">最新情報をお届け</h4>
+                      <p className="text-gray-300 text-sm">
+                        新着記事やおすすめ情報を週1回お届けします。
+                      </p>
+                      <div className="flex flex-col sm:flex-row gap-2">
+                        <input 
+                          type="email" 
+                          placeholder="メールアドレス"
+                          className="flex-1 px-4 py-2 rounded-lg bg-gray-800 text-white placeholder-gray-400 border border-gray-700 focus:border-primary-400 focus:outline-none"
+                        />
+                        <button className="bg-primary-500 hover:bg-primary-600 text-white font-semibold px-4 py-2 rounded-lg transition-colors duration-200 whitespace-nowrap">
+                          登録する
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Bottom Bar */}
+                  <div className="border-t border-gray-700 pt-8">
+                    <div className="flex flex-col md:flex-row justify-between items-center">
+                      <p className="text-gray-400 text-sm mb-4 md:mb-0">
+                        © 2024 BlueWave24. All rights reserved.
+                      </p>
+                      <div className="flex space-x-6">
+                        <a href="#" className="text-gray-400 hover:text-primary-400 text-sm transition-colors duration-200">
+                          プライバシーポリシー
+                        </a>
+                        <a href="#" className="text-gray-400 hover:text-primary-400 text-sm transition-colors duration-200">
+                          利用規約
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
