@@ -452,6 +452,13 @@ export default function AudibleLandingPage() {
             color: white;
             transition: transform 0.3s ease;
         }
+        
+        .solution-card,
+        .solution-card h3,
+        .solution-card p,
+        .solution-card li {
+            color: white !important;
+        }
 
         .solution-card:hover {
             transform: translateY(-10px);
