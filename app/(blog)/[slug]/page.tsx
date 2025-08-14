@@ -147,11 +147,11 @@ export default async function PagePage({ params }: Props) {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="bg-white p-6 rounded-xl shadow-soft">
-                  <p className="text-gray-700 mb-4 italic">"通勤時間が毎日1時間あるので、その時間を使ってビジネス書を聴いています。1ヶ月で3〜4冊は読めるようになり、仕事の知識も大幅にアップしました！"</p>
+                  <p className="text-gray-700 mb-4 italic">&quot;通勤時間が毎日1時間あるので、その時間を使ってビジネス書を聴いています。1ヶ月で3〜4冊は読めるようになり、仕事の知識も大幅にアップしました！&quot;</p>
                   <div className="text-sm text-gray-500">30代・会社員</div>
                 </div>
                 <div className="bg-white p-6 rounded-xl shadow-soft">
-                  <p className="text-gray-700 mb-4 italic">"家事をしながら自己啓発書を聴いています。料理や掃除の時間が学習時間に変わって、一石二鳥！時間を有効活用できている実感があります。"</p>
+                  <p className="text-gray-700 mb-4 italic">&quot;家事をしながら自己啓発書を聴いています。料理や掃除の時間が学習時間に変わって、一石二鳥！時間を有効活用できている実感があります。&quot;</p>
                   <div className="text-sm text-gray-500">40代・主婦</div>
                 </div>
               </div>

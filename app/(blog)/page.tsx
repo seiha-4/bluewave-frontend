@@ -111,19 +111,19 @@ export default async function Page() {
                 BlueWave24
               </h1>
               <div className="hidden md:flex space-x-6">
-                <a href="/" className="text-gray-700 hover:text-primary-600 font-medium">ホーム</a>
-                <a href="/audible" className="text-gray-700 hover:text-primary-600 font-medium">Audible</a>
-                <a href="#" className="text-gray-700 hover:text-primary-600 font-medium">記事</a>
-                <a href="#" className="text-gray-700 hover:text-primary-600 font-medium">お問い合わせ</a>
+                <Link href="/" className="text-gray-700 hover:text-primary-600 font-medium">ホーム</Link>
+                <Link href="/audible" className="text-gray-700 hover:text-primary-600 font-medium">Audible</Link>
+                <Link href="#" className="text-gray-700 hover:text-primary-600 font-medium">記事</Link>
+                <Link href="#" className="text-gray-700 hover:text-primary-600 font-medium">お問い合わせ</Link>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <a 
+              <Link 
                 href="/audible"
                 className="btn-primary text-sm"
               >
                 Audible無料体験
-              </a>
+              </Link>
             </div>
           </div>
         </nav>
@@ -143,12 +143,12 @@ export default async function Page() {
               自己成長、読書、そして幸せな人生について一緒に学びましょう。
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a href="/audible" className="btn-primary bg-white text-primary-600 hover:bg-gray-100 hover:text-primary-700">
+              <Link href="/audible" className="btn-primary bg-white text-primary-600 hover:bg-gray-100 hover:text-primary-700">
                 📚 Audible無料体験を始める
-              </a>
-              <a href="#posts" className="text-white hover:text-yellow-200 font-semibold underline underline-offset-4">
+              </Link>
+              <Link href="#posts" className="text-white hover:text-yellow-200 font-semibold underline underline-offset-4">
                 記事を読む
-              </a>
+              </Link>
             </div>
           </div>
         </div>

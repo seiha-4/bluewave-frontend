@@ -10,6 +10,7 @@ import {
 import { Inter } from "next/font/google";
 import { draftMode } from "next/headers";
 import { Suspense } from "react";
+import Link from "next/link";
 
 import AlertBanner from "./alert-banner";
 import PortableText from "./portable-text";
@@ -96,18 +97,18 @@ export default async function RootLayout({
                         成長と幸せのブログ。毎日をより良く、より豊かにするためのヒントをお届けします。
                       </p>
                       <div className="flex space-x-4">
-                        <a href="#" className="text-gray-400 hover:text-primary-400 transition-colors duration-200">
+                        <Link href="#" className="text-gray-400 hover:text-primary-400 transition-colors duration-200">
                           <span className="sr-only">Twitter</span>
                           🐦
-                        </a>
-                        <a href="#" className="text-gray-400 hover:text-secondary-400 transition-colors duration-200">
+                        </Link>
+                        <Link href="#" className="text-gray-400 hover:text-secondary-400 transition-colors duration-200">
                           <span className="sr-only">Facebook</span>
                           📘
-                        </a>
-                        <a href="#" className="text-gray-400 hover:text-primary-400 transition-colors duration-200">
+                        </Link>
+                        <Link href="#" className="text-gray-400 hover:text-primary-400 transition-colors duration-200">
                           <span className="sr-only">Instagram</span>
                           📷
-                        </a>
+                        </Link>
                       </div>
                     </div>
 
@@ -115,10 +116,10 @@ export default async function RootLayout({
                     <div className="space-y-4">
                       <h4 className="text-lg font-semibold text-white">クイックリンク</h4>
                       <ul className="space-y-2">
-                        <li><a href="/" className="text-gray-300 hover:text-primary-400 transition-colors duration-200">ホーム</a></li>
-                        <li><a href="/audible" className="text-gray-300 hover:text-primary-400 transition-colors duration-200">Audible無料体験</a></li>
-                        <li><a href="#" className="text-gray-300 hover:text-primary-400 transition-colors duration-200">記事一覧</a></li>
-                        <li><a href="#" className="text-gray-300 hover:text-primary-400 transition-colors duration-200">お問い合わせ</a></li>
+                        <li><Link href="/" className="text-gray-300 hover:text-primary-400 transition-colors duration-200">ホーム</Link></li>
+                        <li><Link href="/audible" className="text-gray-300 hover:text-primary-400 transition-colors duration-200">Audible無料体験</Link></li>
+                        <li><Link href="#" className="text-gray-300 hover:text-primary-400 transition-colors duration-200">記事一覧</Link></li>
+                        <li><Link href="#" className="text-gray-300 hover:text-primary-400 transition-colors duration-200">お問い合わせ</Link></li>
                       </ul>
                     </div>
 
@@ -148,12 +149,12 @@ export default async function RootLayout({
                         © 2024 BlueWave24. All rights reserved.
                       </p>
                       <div className="flex space-x-6">
-                        <a href="#" className="text-gray-400 hover:text-primary-400 text-sm transition-colors duration-200">
+                        <Link href="#" className="text-gray-400 hover:text-primary-400 text-sm transition-colors duration-200">
                           プライバシーポリシー
-                        </a>
-                        <a href="#" className="text-gray-400 hover:text-primary-400 text-sm transition-colors duration-200">
+                        </Link>
+                        <Link href="#" className="text-gray-400 hover:text-primary-400 text-sm transition-colors duration-200">
                           利用規約
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </div>
