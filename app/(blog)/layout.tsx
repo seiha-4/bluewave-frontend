@@ -12,6 +12,8 @@ import { draftMode } from "next/headers";
 
 import AlertBanner from "./alert-banner";
 import PortableText from "./portable-text";
+import GoogleAnalytics from "../components/GoogleAnalytics";
+import PageViewTracker from "../components/PageViewTracker";
 
 import * as demo from "@/sanity/lib/demo";
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -67,6 +69,8 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} bg-white text-black`}>
       <body>
+        <GoogleAnalytics />
+        <PageViewTracker />
         <section className="min-h-screen">
           {isDraftMode && <AlertBanner />}
           <main>{children}</main>
