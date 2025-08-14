@@ -535,9 +535,13 @@ export default function AudibleLandingPage() {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 30px;
             padding: 50px;
-            color: white;
+            color: #fff;
             text-align: center;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .pricing-card h3, .pricing-card p, .pricing-card span {
+            color: #fff;
         }
 
         .pricing-header h3 {
@@ -576,18 +580,9 @@ export default function AudibleLandingPage() {
             font-size: 18px;
         }
 
-        .trial-badge {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 12px 24px;
-            border-radius: 20px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            display: inline-block;
-        }
-
         .trial-note {
             font-size: 14px;
-            opacity: 0.8;
+            opacity: 0.9;
         }
 
         /* CTA Section */
@@ -970,8 +965,10 @@ export default function AudibleLandingPage() {
                         </div>
                     </div>
                     <div className="pricing-cta">
-                        <div className="trial-badge">🎁 30日間無料体験</div>
-                        <p className="trial-note">※無料期間中に解約しても、ダウンロードした本は聴き続けられます</p>
+                         <a href="https://amzn.to/47vbF3c" target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{width: '80%', margin: '0 auto 20px'}}>
+                            🎁 30日間無料体験
+                        </a>
+                        <p className="trial-note">※いつでも解約OK。単品購入したタイトルは解約後もあなたのものに。</p>
                     </div>
                 </div>
             </div>
@@ -1027,3 +1024,4 @@ export default function AudibleLandingPage() {
     </>
   );
 }
+
