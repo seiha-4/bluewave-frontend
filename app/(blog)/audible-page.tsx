@@ -828,17 +828,17 @@ export default function AudibleLandingPage() {
             <div className="container">
                 <h2 className="section-title">こんな悩みはありませんか？</h2>
                 <div className="problem-grid">
-                    <div className="problem-card">
+                    <div className="problem-card text-white">
                         <div className="problem-icon">😴</div>
                         <h3>読書すると眠くなる</h3>
                         <p>文字を追っているうちに集中力が切れて、気づいたら同じページを何度も読んでいる...</p>
                     </div>
-                    <div className="problem-card">
+                    <div className="problem-card text-white">
                         <div className="problem-icon">⏰</div>
                         <h3>読書の時間がない</h3>
                         <p>仕事や家事で忙しく、ゆっくり本を読む時間が取れない。積読が増える一方...</p>
                     </div>
-                    <div className="problem-card">
+                    <div className="problem-card text-white">
                         <div className="problem-icon">📱</div>
                         <h3>スマホに気が散る</h3>
                         <p>読書中でもついスマホを見てしまい、集中できない。SNSやYouTubeに時間を取られる...</p>
