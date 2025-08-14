@@ -123,23 +123,7 @@ export default async function RootLayout({
                       </ul>
                     </div>
 
-                    {/* Newsletter */}
-                    <div className="space-y-4">
-                      <h4 className="text-lg font-semibold text-white">最新情報をお届け</h4>
-                      <p className="text-gray-300 text-sm">
-                        新着記事やおすすめ情報を週1回お届けします。
-                      </p>
-                      <div className="flex flex-col sm:flex-row gap-2">
-                        <input 
-                          type="email" 
-                          placeholder="メールアドレス"
-                          className="flex-1 px-4 py-2 rounded-lg bg-gray-800 text-white placeholder-gray-400 border border-gray-700 focus:border-primary-400 focus:outline-none"
-                        />
-                        <button className="bg-primary-500 hover:bg-primary-600 text-white font-semibold px-4 py-2 rounded-lg transition-colors duration-200 whitespace-nowrap">
-                          登録する
-                        </button>
-                      </div>
-                    </div>
+                    
                   </div>
 
                   {/* Bottom Bar */}
