@@ -45,6 +45,13 @@ export async function generateMetadata(
 }
 
 export default async function PagePage({ params }: Props) {
+  const { slug } = await params;
+  const isAudiblePage = slug === 'audible';
+
+  if (isAudiblePage) {
+    return <AudibleLandingPage />;
+  }
+
   const [page, settings] = await Promise.all([
     sanityFetch({ query: pageQuery, params }),
     sanityFetch({ query: settingsQuery }),
@@ -52,13 +59,6 @@ export default async function PagePage({ params }: Props) {
 
   if (!page?._id) {
     return notFound();
-  }
-
-  const { slug } = await params;
-  const isAudiblePage = slug === 'audible';
-
-  if (isAudiblePage) {
-    return <AudibleLandingPage />;
   }
 
   // Regular page content
