@@ -787,50 +787,27 @@ export default function AudibleLandingPage() {
                             <div className="stat">
                                 <span className="stat-number">40万+</span>
                                 <span className="stat-label">タイトル数</span>
-                        </div>
-                        <div className="stat">
-                            <span className="stat-number">30日間</span>
-                            <span className="stat-label">無料体験</span>
-                        </div>
-                        <div className="stat">
-                            <span className="stat-number">30%OFF</span>
-                            <span className="stat-label">追加購入</span>
-                        </div>
-                    </div>
-                    <div className="max-w-md mx-auto my-8 bg-white rounded-2xl p-6 shadow-lg" style={{ maxWidth: '320px' }}>
-                        <AudioPlayer 
-                            title="7つの習慣"
-                            author="スティーブン・R・コヴィー"
-                            audioSrc="/audio/7habits-sample.mp3"
-                            coverImage="/images/7habits.jpg"
-                        />
-                        </div>
-                        <div className="hero-buttons">
-                            <a href="https://amzn.to/47vbF3c" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-                                🎁 30日間無料で始める
-                            </a>
-                            <a href="#features" className="btn btn-secondary">
-                                📖 詳しく見る
-                            </a>
+                            </div>
+                            <div className="stat">
+                                <span className="stat-number">30日間</span>
+                                <span className="stat-label">無料体験</span>
+                            </div>
+                            <div className="stat">
+                                <span className="stat-number">30%OFF</span>
+                                <span className="stat-label">追加購入</span>
+                            </div>
                         </div>
                     </div>
                     <div className="hero-image">
                         <div className="phone-mockup">
                             <div className="phone-screen">
-                                <div className="audio-player">
-                                    <div className="now-playing">
-                                        <h4>📚 7つの習慣</h4>
-                                        <p>スティーブン・R・コヴィー</p>
-                                    </div>
-                                    <div className="progress-bar">
-                                        <div className="progress" style={{width: '35%'}}></div>
-                                    </div>
-                                    <div className="controls">
-                                        <button className="control-btn">⏮</button>
-                                        <button className="control-btn play">▶️</button>
-                                        <button className="control-btn">⏭</button>
-                                    </div>
-                                </div>
+                                <AudioPlayer 
+                                    title="7つの習慣"
+                                    author="スティーブン・R・コヴィー"
+                                    audioSrc="/audio/7habits-sample.mp3"
+                                    coverImage="/images/7habits.jpg"
+                                    className="bg-transparent shadow-none"
+                                />
                             </div>
                         </div>
                     </div>
