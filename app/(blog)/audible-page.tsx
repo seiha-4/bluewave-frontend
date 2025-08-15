@@ -307,22 +307,24 @@ export default function AudibleLandingPage() {
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             position: relative;
             margin: 0 auto;
-        }
-
-        .phone-screen {
-            width: 100%;
-            height: 100%;
-            background: #000;
-            border-radius: 30px;
-            padding: 40px 20px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .audio-player {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
+.audio-player {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+}
+
+.now-playing h4 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: #333;
+}
             border-radius: 20px;
             padding: 30px;
             text-align: center;
@@ -806,7 +808,7 @@ export default function AudibleLandingPage() {
                                     author="スティーブン・R・コヴィー"
                                     audioSrc="/audio/7habits-sample.mp3"
                                     coverImage="/images/7habits.jpg"
-                                    className="bg-transparent shadow-none"
+                                    className="w-full h-full bg-transparent shadow-none [&>div]:bg-transparent [&_button]:bg-blue-600 [&_button]:hover:bg-blue-700"
                                 />
                             </div>
                         </div>

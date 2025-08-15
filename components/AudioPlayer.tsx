@@ -130,30 +130,52 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const progressWidth = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div className={`audio-player bg-white rounded-xl shadow-lg p-4 max-w-md mx-auto ${className}`}>
+    <div 
+      className={`audio-player bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-4 max-w-md mx-auto ${className}`}
+      style={{ 
+        width: '100%',
+        maxWidth: '100%',
+        height: 'auto',
+        maxHeight: '100%',
+        overflow: 'hidden',
+        transition: 'all 0.3s ease'
+      }}
+    >
       {/* オーディオ要素（非表示） */}
       <audio
         ref={audioRef}
         src={audioSrc}
         preload="metadata"
         className="hidden"
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
       />
       
       {/* 再生情報 */}
-      <div className="flex items-center mb-4">
-        <div className="flex-shrink-0 mr-3">
-          <div className="w-12 h-12 bg-gray-200 rounded-lg overflow-hidden">
-            {coverImage && (
+      <div className="flex items-center mb-4 space-x-3">
+        <div className="flex-shrink-0">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gray-100 rounded-lg overflow-hidden shadow-sm">
+            {coverImage ? (
               <img
                 src={coverImage}
                 alt={title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform hover:scale-105"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = '/default-audio-cover.jpg';
+                }}
               />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center">
+                <svg className="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1.728l2.638-3.276A6 6 0 0018 8V3z" />
+                </svg>
+              </div>
             )}
           </div>
         </div>
         <div className="flex-grow min-w-0">
-          <h3 className="text-sm font-medium text-gray-900 truncate">{title}</h3>
+          <h3 className="text-sm sm:text-base font-medium text-gray-900 truncate">{title}</h3>
           <p className="text-xs text-gray-500 truncate">{author}</p>
         </div>
       </div>
