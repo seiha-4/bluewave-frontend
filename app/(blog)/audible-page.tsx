@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useRef } from 'react';
+import AudioPlayer from '../../components/AudioPlayer';
 
 export default function AudibleLandingPage() {
   useEffect(() => {
@@ -795,6 +796,14 @@ export default function AudibleLandingPage() {
                                 <span className="stat-number">30%OFF</span>
                                 <span className="stat-label">追加購入</span>
                             </div>
+                        </div>
+                        <div className="max-w-md mx-auto my-8 bg-white rounded-2xl p-6 shadow-lg">
+                          <AudioPlayer 
+                            title="7つの習慣"
+                            author="スティーブン・R・コヴィー"
+                            audioSrc="/audio/7habits-sample.mp3"
+                            coverImage="/images/7habits.jpg"
+                          />
                         </div>
                         <div className="hero-buttons">
                             <a href="https://amzn.to/47vbF3c" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
