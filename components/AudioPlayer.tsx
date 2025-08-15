@@ -26,15 +26,19 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const progressBarRef = useRef<HTMLDivElement>(null);
 
   // 再生/一時停止の切り替え
-  const togglePlayPause = () => {
-    if (isPlaying) {
-      audioRef.current?.pause();
-    } else {
-      audioRef.current?.play().catch(error => {
-        console.error('再生に失敗しました:', error);
-      });
+  const togglePlayPause = async () => {
+    try {
+      if (audioRef.current) {
+        if (isPlaying) {
+          await audioRef.current.pause();
+        } else {
+          await audioRef.current.play();
+        }
+        // イベントハンドラで状態が更新されるので、ここでは更新しない
+      }
+    } catch (error) {
+      console.error('再生に失敗しました:', error);
     }
-    setIsPlaying(!isPlaying);
   };
 
   // 再生時間のフォーマット（mm:ss）
@@ -98,18 +102,29 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
   // オーディオ要素のイベントリスナーを設定
   useEffect(() => {
     const audio = audioRef.current;
-    if (audio) {
-      audio.addEventListener('timeupdate', handleTimeUpdate);
-      audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.addEventListener('ended', handleEnded);
-      
-      return () => {
-        audio.removeEventListener('timeupdate', handleTimeUpdate);
-        audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-        audio.removeEventListener('ended', handleEnded);
-      };
+    if (!audio) return;
+
+    // イベントリスナーを追加
+    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('play', () => setIsPlaying(true));
+    audio.addEventListener('pause', () => setIsPlaying(false));
+    
+    // メタデータを読み込む
+    if (audio.readyState > 0) {
+      handleLoadedMetadata();
     }
-  }, [audioRef]);
+    
+    // クリーンアップ関数
+    return () => {
+      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('play', () => setIsPlaying(true));
+      audio.removeEventListener('pause', () => setIsPlaying(false));
+    };
+  }, [audioRef, audioSrc]); // audioSrcを依存配列に追加
 
   // 進捗バーの幅を計算
   const progressWidth = duration > 0 ? (currentTime / duration) * 100 : 0;

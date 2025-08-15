@@ -787,23 +787,23 @@ export default function AudibleLandingPage() {
                             <div className="stat">
                                 <span className="stat-number">40万+</span>
                                 <span className="stat-label">タイトル数</span>
-                            </div>
-                            <div className="stat">
-                                <span className="stat-number">30日間</span>
-                                <span className="stat-label">無料体験</span>
-                            </div>
-                            <div className="stat">
-                                <span className="stat-number">30%OFF</span>
-                                <span className="stat-label">追加購入</span>
-                            </div>
                         </div>
-                        <div className="max-w-md mx-auto my-8 bg-white rounded-2xl p-6 shadow-lg">
-                          <AudioPlayer 
+                        <div className="stat">
+                            <span className="stat-number">30日間</span>
+                            <span className="stat-label">無料体験</span>
+                        </div>
+                        <div className="stat">
+                            <span className="stat-number">30%OFF</span>
+                            <span className="stat-label">追加購入</span>
+                        </div>
+                    </div>
+                    <div className="max-w-md mx-auto my-8 bg-white rounded-2xl p-6 shadow-lg" style={{ maxWidth: '320px' }}>
+                        <AudioPlayer 
                             title="7つの習慣"
                             author="スティーブン・R・コヴィー"
                             audioSrc="/audio/7habits-sample.mp3"
                             coverImage="/images/7habits.jpg"
-                          />
+                        />
                         </div>
                         <div className="hero-buttons">
                             <a href="https://amzn.to/47vbF3c" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
