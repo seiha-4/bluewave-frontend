@@ -1,18 +1,11 @@
-'use client';
-
 import { defineQuery } from "next-sanity";
 import type { Metadata, ResolvingMetadata } from "next";
 import { type PortableTextBlock } from "next-sanity";
+import { PortableText } from "@portabletext/react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import React, { useEffect } from 'react';
-import dynamic from 'next/dynamic';
-
-// Dynamically import AudioPlayer with no SSR to avoid window is not defined errors
-const AudioPlayer = dynamic(() => import('@/components/AudioPlayer'), {
-  ssr: false,
-  loading: () => <div className="audio-player-loading">Loading player...</div>
-});
+import React from 'react';
+import AudioPlayerClient from "../../components/AudioPlayerClient";
 
 import * as demo from "@/sanity/lib/demo";
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -114,7 +107,7 @@ export default async function PagePage({ params }: Props) {
               <div className="hero-image">
                 <div className="phone-mockup">
                   <div className="phone-screen">
-                    <AudioPlayer 
+                    <AudioPlayerClient 
                       title="📚 7つの習慣"
                       author="スティーブン・R・コヴィー"
                       audioSrc="/sample-audio.mp3"
@@ -364,10 +357,11 @@ export default async function PagePage({ params }: Props) {
 
           {page.body?.length && (
             <div className="bg-white rounded-2xl shadow-card p-8 md:p-12 mb-16">
-              <PortableText
-                className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-headings:font-bold prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-primary-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-blockquote:border-primary-200 prose-blockquote:bg-primary-50 prose-blockquote:text-gray-700"
-                value={page.body as PortableTextBlock[]}
-              />
+              <div className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-headings:font-bold prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-primary-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-blockquote:border-primary-200 prose-blockquote:bg-primary-50 prose-blockquote:text-gray-700">
+                <PortableText 
+                  value={page.body as PortableTextBlock[]}
+                />
+              </div>
             </div>
           )}
         </article>

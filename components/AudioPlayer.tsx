@@ -34,12 +34,15 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const progressBarRef = useRef<HTMLDivElement>(null);
   const countdownInterval = useRef<NodeJS.Timeout | null>(null);
   const mockProgressInterval = useRef<NodeJS.Timeout | null>(null);
-  const targetDate = useRef<Date>(() => {
+  const targetDate = useRef<Date>(new Date());
+
+  useEffect(() => {
+    // Set the target date 15 days from now at 23:59:59.999
     const date = new Date();
     date.setDate(date.getDate() + 15);
     date.setHours(23, 59, 59, 999);
-    return date;
-  });
+    targetDate.current = date;
+  }, []);
 
   // Countdown timer
   useEffect(() => {
@@ -86,16 +89,19 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
       
       e.preventDefault();
       const targetId = target.getAttribute('href');
-      const targetElement = document.querySelector(targetId);
       
-      if (targetElement) {
-        const headerHeight = 70;
-        const targetTop = (targetElement as HTMLElement).offsetTop - headerHeight;
+      if (targetId && typeof targetId === 'string') {
+        const targetElement = document.querySelector(targetId);
         
-        window.scrollTo({
-          top: targetTop,
-          behavior: 'smooth'
-        });
+        if (targetElement) {
+          const headerHeight = 70;
+          const targetTop = (targetElement as HTMLElement).offsetTop - headerHeight;
+          
+          window.scrollTo({
+            top: targetTop,
+            behavior: 'smooth'
+          });
+        }
       }
     };
 

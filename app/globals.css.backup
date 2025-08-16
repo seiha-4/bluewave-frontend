@@ -688,3 +688,4 @@ section {
       transform: translateY(-20px);
     }
   }
+}
