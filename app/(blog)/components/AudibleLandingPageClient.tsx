@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import './audible-styles.css';
 
 export default function AudibleLandingPageClient() {
   const [countdown, setCountdown] = useState({
@@ -155,7 +156,7 @@ export default function AudibleLandingPageClient() {
   }, []);
 
   return (
-    <div>
+    <div className="audible-page">
       {/* ヘッダー */}
       <header className="header">
         <div className="container">
@@ -379,9 +380,8 @@ export default function AudibleLandingPageClient() {
               </div>
             </div>
             <div className="pricing-cta">
-              <div className="trial-badge">🎁 30日間無料体験</div>
               <a href="https://amzn.to/3V454Fu" target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{marginTop: '16px'}}>
-                🎁 30日間無料で始める
+                🎁 30日間無料体験を始める
               </a>
               <p className="trial-note">※無料期間中に解約しても、ダウンロードした本は聴き続けられます</p>
             </div>
