@@ -84,10 +84,6 @@ export default function AudibleLandingPageClient() {
     }
   };
 
-  // CTAボタンクリック
-  const handleCTAClick = () => {
-    alert('🎉 Audibleの30日間無料体験にご登録いただき、ありがとうございます！\n\n※これはデモサイトです。実際の登録は公式サイトで行ってください。');
-  };
 
   // 詳しく見るボタンクリック
   const handleLearnMoreClick = () => {
@@ -206,9 +202,9 @@ export default function AudibleLandingPageClient() {
                 </div>
               </div>
               <div className="hero-buttons">
-                <button className="btn btn-primary" onClick={handleCTAClick}>
+                <a href="https://amzn.to/3V454Fu" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
                   🎁 30日間無料で始める
-                </button>
+                </a>
                 <button className="btn btn-secondary" onClick={handleLearnMoreClick}>
                   📖 詳しく見る
                 </button>
@@ -384,6 +380,9 @@ export default function AudibleLandingPageClient() {
             </div>
             <div className="pricing-cta">
               <div className="trial-badge">🎁 30日間無料体験</div>
+              <a href="https://amzn.to/3V454Fu" target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{marginTop: '16px'}}>
+                🎁 30日間無料で始める
+              </a>
               <p className="trial-note">※無料期間中に解約しても、ダウンロードした本は聴き続けられます</p>
             </div>
           </div>
@@ -420,9 +419,9 @@ export default function AudibleLandingPageClient() {
                 </div>
               </div>
             </div>
-            <button className="btn btn-cta" onClick={handleCTAClick}>
+            <a href="https://amzn.to/3V454Fu" target="_blank" rel="noopener noreferrer" className="btn btn-cta">
               🚀 今すぐ30日間無料で始める
-            </button>
+            </a>
             <p className="guarantee">
               ✅ いつでもキャンセル可能 ✅ 自動更新なし ✅ リスクゼロ
             </p>
