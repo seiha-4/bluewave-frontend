@@ -4,8 +4,8 @@ import Avatar from "./avatar";
 import CoverImage from "./cover-image";
 import DateComponent from "./date";
 
-import { sanityFetch } from "@/sanity/lib/fetch";
-import { moreStoriesQuery } from "@/sanity/lib/queries";
+import { sanityFetch } from "../../sanity/lib/fetch";
+import { moreStoriesQuery } from "../../sanity/lib/queries";
 
 export default async function MoreStories(params: {
   skip: string;
@@ -16,7 +16,7 @@ export default async function MoreStories(params: {
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
-        {data?.map((post) => {
+        {data?.map((post: any) => {
           const { _id, title, slug, coverImage, excerpt, author } = post;
           return (
             <article key={_id} className="card overflow-hidden group">

@@ -1,9 +1,10 @@
 import { defineQuery } from "next-sanity";
 import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
-import { sanityFetch } from "../../../../sanity/lib/fetch";
-import { pageQuery, settingsQuery } from "../../../../sanity/lib/queries";
+import { sanityFetch } from "../../../sanity/lib/fetch";
+import { pageQuery, settingsQuery } from "../../../sanity/lib/queries";
 import PostPageClient from "../../components/PostPageClient";
+import AudibleLandingPageClient from "../components/AudibleLandingPageClient";
 import type { PagePayload } from "../../types/sanity";
 
 interface Settings {
@@ -24,12 +25,13 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  { params }: { params: { slug: string } },
+  { params }: { params: Promise<{ slug: string }> },
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
+  const resolvedParams = await params;
   const page = await sanityFetch({
     query: pageQuery,
-    params,
+    params: resolvedParams,
     stega: false,
   });
 
@@ -40,15 +42,22 @@ export async function generateMetadata(
 }
 
 interface PageProps {
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export default async function Page({ params }: PageProps) {
+  const { slug } = await params;
+  
+  // Handle Audible landing page separately
+  if (slug === 'audible') {
+    return <AudibleLandingPageClient />;
+  }
+
   const [page, settings] = await Promise.all([
     sanityFetch({
       query: pageQuery,
-      params,
+      params: { slug },
     }) as Promise<PagePayload>,
     sanityFetch({
       query: settingsQuery,

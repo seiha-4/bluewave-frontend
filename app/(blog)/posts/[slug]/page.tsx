@@ -11,10 +11,10 @@ import DateComponent from "../../date";
 import MoreStories from "../../more-stories";
 import PortableText from "../../portable-text";
 
-import * as demo from "@/sanity/lib/demo";
-import { sanityFetch } from "@/sanity/lib/fetch";
-import { postQuery, settingsQuery } from "@/sanity/lib/queries";
-import { resolveOpenGraphImage } from "@/sanity/lib/utils";
+import * as demo from "../../../../sanity/lib/demo";
+import { sanityFetch } from "../../../../sanity/lib/fetch";
+import { postQuery, settingsQuery } from "../../../../sanity/lib/queries";
+import { resolveOpenGraphImage } from "../../../../sanity/lib/utils";
 
 type Props = {
   params: Promise<{ slug: string }>;

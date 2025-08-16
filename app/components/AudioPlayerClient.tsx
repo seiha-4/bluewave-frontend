@@ -1,12 +1,6 @@
 'use client';
 
 import React from 'react';
-import dynamic from 'next/dynamic';
-
-const AudioPlayer = dynamic(() => import('@/components/AudioPlayer'), {
-  ssr: false,
-  loading: () => <div className="audio-player-loading">Loading player...</div>
-});
 
 interface AudioPlayerClientProps {
   title?: string;
@@ -24,13 +18,20 @@ const AudioPlayerClient: React.FC<AudioPlayerClientProps> = ({
   className = ''
 }) => {
   return (
-    <AudioPlayer 
-      title={title}
-      author={author}
-      audioSrc={audioSrc}
-      coverImage={coverImage}
-      className={className}
-    />
+    <div className={`audio-player ${className}`}>
+      <div className="now-playing">
+        <h4>{title}</h4>
+        <p>{author}</p>
+      </div>
+      <div className="progress-bar">
+        <div className="progress" style={{ width: '35%' }}></div>
+      </div>
+      <div className="controls">
+        <button className="control-btn">⏮</button>
+        <button className="control-btn play">▶️</button>
+        <button className="control-btn">⏭</button>
+      </div>
+    </div>
   );
 };
 

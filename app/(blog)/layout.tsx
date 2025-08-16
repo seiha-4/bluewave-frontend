@@ -17,10 +17,10 @@ import PortableText from "./portable-text";
 import GoogleAnalytics from "../components/GoogleAnalytics";
 import PageViewTracker from "../components/PageViewTracker";
 
-import * as demo from "@/sanity/lib/demo";
-import { sanityFetch } from "@/sanity/lib/fetch";
-import { settingsQuery } from "@/sanity/lib/queries";
-import { resolveOpenGraphImage } from "@/sanity/lib/utils";
+import * as demo from "../../sanity/lib/demo";
+import { sanityFetch } from "../../sanity/lib/fetch";
+import { settingsQuery } from "../../sanity/lib/queries";
+import { resolveOpenGraphImage } from "../../sanity/lib/utils";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await sanityFetch({
