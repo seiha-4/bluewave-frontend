@@ -17,214 +17,293 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
   coverImage = '/sample-cover.jpg',
   className = '',
 }) => {
+  // Audio player states
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [duration, setDuration] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [isSeeking, setIsSeeking] = useState<boolean>(false);
+  const [progress, setProgress] = useState<number>(35); // For mock player
+  
+  // Countdown timer states
+  const [days, setDays] = useState<string>('15');
+  const [hours, setHours] = useState<string>('23');
+  const [minutes, setMinutes] = useState<string>('59');
+  const [seconds, setSeconds] = useState<string>('59');
   
   const audioRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
+  const countdownInterval = useRef<NodeJS.Timeout | null>(null);
+  const mockProgressInterval = useRef<NodeJS.Timeout | null>(null);
+  const targetDate = useRef<Date>(() => {
+    const date = new Date();
+    date.setDate(date.getDate() + 15);
+    date.setHours(23, 59, 59, 999);
+    return date;
+  });
 
-  // 再生/一時停止の切り替え
-  const togglePlayPause = async () => {
-    try {
-      if (audioRef.current) {
-        if (isPlaying) {
-          await audioRef.current.pause();
-        } else {
-          await audioRef.current.play();
-        }
-        // イベントハンドラで状態が更新されるので、ここでは更新しない
-      }
-    } catch (error) {
-      console.error('再生に失敗しました:', error);
-    }
-  };
-
-  // 再生時間のフォーマット（mm:ss）
-  const formatTime = (time: number): string => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-  };
-
-  // プログレスバークリックでシーク
-  const handleProgressBarClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!progressBarRef.current) return;
-    
-    const rect = progressBarRef.current.getBoundingClientRect();
-    const pos = (e.clientX - rect.left) / rect.width;
-    const newTime = pos * duration;
-    
-    if (audioRef.current) {
-      audioRef.current.currentTime = newTime;
-      setCurrentTime(newTime);
-    }
-  };
-
-  // オーディオメタデータの読み込み
-  const handleLoadedMetadata = () => {
-    if (audioRef.current) {
-      setDuration(audioRef.current.duration);
-    }
-  };
-
-  // 再生時間の更新
-  const handleTimeUpdate = () => {
-    if (audioRef.current && !isSeeking) {
-      setCurrentTime(audioRef.current.currentTime);
-    }
-  };
-
-  // 再生終了時の処理
-  const handleEnded = () => {
-    setIsPlaying(false);
-    setCurrentTime(0);
-  };
-
-  // シーク中かどうかのフラグ管理
-  const startSeeking = () => setIsSeeking(true);
-  const stopSeeking = () => setIsSeeking(false);
-
-  // コンポーネントのアンマウント時にイベントリスナーをクリーンアップ
+  // Countdown timer
   useEffect(() => {
-    const audio = audioRef.current;
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const distance = targetDate.current.getTime() - now;
+
+      if (distance < 0) {
+        // Reset for another 30 days if countdown ends
+        targetDate.current.setDate(targetDate.current.getDate() + 30);
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((distance % (1000 * 60)) / 1000);
+
+      setDays(days.toString().padStart(2, '0'));
+      setHours(hours.toString().padStart(2, '0'));
+      setMinutes(mins.toString().padStart(2, '0'));
+      setSeconds(secs.toString().padStart(2, '0'));
+    };
+
+    // Initial call
+    updateCountdown();
+    
+    // Update every second
+    countdownInterval.current = setInterval(updateCountdown, 1000);
+
+    // Cleanup
     return () => {
-      if (audio) {
-        audio.pause();
-        audio.removeEventListener('timeupdate', handleTimeUpdate);
-        audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-        audio.removeEventListener('ended', handleEnded);
+      if (countdownInterval.current) {
+        clearInterval(countdownInterval.current);
       }
     };
   }, []);
 
-  // オーディオ要素のイベントリスナーを設定
+  // Smooth scroll for anchor links
   useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    // イベントリスナーを追加
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-    audio.addEventListener('ended', handleEnded);
-    audio.addEventListener('play', () => setIsPlaying(true));
-    audio.addEventListener('pause', () => setIsPlaying(false));
-    
-    // メタデータを読み込む
-    if (audio.readyState > 0) {
-      handleLoadedMetadata();
-    }
-    
-    // クリーンアップ関数
-    return () => {
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.removeEventListener('ended', handleEnded);
-      audio.removeEventListener('play', () => setIsPlaying(true));
-      audio.removeEventListener('pause', () => setIsPlaying(false));
+    const handleSmoothScroll = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement).closest('a[href^="#"]') as HTMLAnchorElement;
+      if (!target) return;
+      
+      e.preventDefault();
+      const targetId = target.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
+      
+      if (targetElement) {
+        const headerHeight = 70;
+        const targetTop = (targetElement as HTMLElement).offsetTop - headerHeight;
+        
+        window.scrollTo({
+          top: targetTop,
+          behavior: 'smooth'
+        });
+      }
     };
-  }, [audioRef, audioSrc]); // audioSrcを依存配列に追加
 
-  // 進捗バーの幅を計算
-  const progressWidth = duration > 0 ? (currentTime / duration) * 100 : 0;
+    document.addEventListener('click', handleSmoothScroll);
+    return () => document.removeEventListener('click', handleSmoothScroll);
+  }, []);
+
+  // Scroll animations
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          (entry.target as HTMLElement).style.opacity = '1';
+          (entry.target as HTMLElement).style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Observe all elements that need animation
+    const animateElements = document.querySelectorAll(
+      '.problem-card, .solution-card, .timeline-item, .pricing-card'
+    );
+
+    animateElements.forEach(el => {
+      (el as HTMLElement).style.opacity = '0';
+      (el as HTMLElement).style.transform = 'translateY(30px)';
+      (el as HTMLElement).style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Header scroll effect
+  useEffect(() => {
+    const header = document.querySelector('.header') as HTMLElement;
+    if (!header) return;
+    
+    let lastScrollTop = 0;
+
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      if (scrollTop > lastScrollTop && scrollTop > 100) {
+        // Scroll down - hide header
+        header.style.transform = 'translateY(-100%)';
+      } else {
+        // Scroll up - show header
+        header.style.transform = 'translateY(0)';
+      }
+      
+      lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Mock audio player progress
+  useEffect(() => {
+    if (isPlaying) {
+      mockProgressInterval.current = setInterval(() => {
+        setProgress(prev => {
+          const newProgress = prev + 0.5;
+          return newProgress > 100 ? 0 : newProgress;
+        });
+      }, 1000);
+    } else if (mockProgressInterval.current) {
+      clearInterval(mockProgressInterval.current);
+    }
+
+    return () => {
+      if (mockProgressInterval.current) {
+        clearInterval(mockProgressInterval.current);
+      }
+    };
+  }, [isPlaying]);
+
+  // Format time (mm:ss)
+  const formatTime = (time: number): string => {
+    const mins = Math.floor(time / 60);
+    const secs = Math.floor(time % 60);
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  };
+
+  // Toggle play/pause
+  const togglePlayPause = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  // Handle button click effects
+  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const button = e.currentTarget;
+    
+    // Add click effect
+    button.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+      button.style.transform = '';
+    }, 150);
+
+    // Handle CTA button
+    if (button.classList.contains('btn-cta') || button.classList.contains('btn-primary')) {
+      alert('🎉 Audibleの30日間無料体験にご登録いただき、ありがとうございます！\n\n※これはデモサイトです。実際の登録は公式サイトで行ってください。');
+    }
+  };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (countdownInterval.current) clearInterval(countdownInterval.current);
+      if (mockProgressInterval.current) clearInterval(mockProgressInterval.current);
+    };
+  }, []);
 
   return (
-    <div 
-      className={`audio-player bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-4 max-w-md mx-auto ${className}`}
-      style={{ 
-        width: '100%',
-        maxWidth: '100%',
-        height: 'auto',
-        maxHeight: '100%',
-        overflow: 'hidden',
-        transition: 'all 0.3s ease'
-      }}
-    >
-      {/* オーディオ要素（非表示） */}
+    <div className={`audio-player ${className}`}>
+      {/* Countdown Timer */}
+      <div className="countdown-timer">
+        <div className="countdown-item">
+          <span id="days" className="countdown-value">{days}</span>
+          <span className="countdown-label">日</span>
+        </div>
+        <div className="countdown-separator">:</div>
+        <div className="countdown-item">
+          <span id="hours" className="countdown-value">{hours}</span>
+          <span className="countdown-label">時間</span>
+        </div>
+        <div className="countdown-separator">:</div>
+        <div className="countdown-item">
+          <span id="minutes" className="countdown-value">{minutes}</span>
+          <span className="countdown-label">分</span>
+        </div>
+        <div className="countdown-separator">:</div>
+        <div className="countdown-item">
+          <span id="seconds" className="countdown-value">{seconds}</span>
+          <span className="countdown-label">秒</span>
+        </div>
+      </div>
+
+      {/* Audio Player */}
+      <div className="audio-player-container">
+        <div className="audio-info">
+          <h4 className="audio-title">{title}</h4>
+          <p className="audio-author">{author}</p>
+        </div>
+        
+        <div className="progress-bar" onClick={(e) => {
+          if (!progressBarRef.current) return;
+          const rect = progressBarRef.current.getBoundingClientRect();
+          const pos = (e.clientX - rect.left) / rect.width;
+          setProgress(pos * 100);
+        }}>
+          <div 
+            ref={progressBarRef}
+            className="progress" 
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        
+        <div className="audio-controls">
+          <button 
+            className="control-btn skip-backward"
+            aria-label="15秒戻る"
+          >
+            <span>⏪ 15秒</span>
+          </button>
+          
+          <button 
+            className={`control-btn ${isPlaying ? 'pause' : 'play'}`}
+            onClick={togglePlayPause}
+            aria-label={isPlaying ? '一時停止' : '再生'}
+          >
+            {isPlaying ? '⏸️' : '▶️'}
+          </button>
+          
+          <button 
+            className="control-btn skip-forward"
+            aria-label="30秒進む"
+          >
+            <span>30秒 ⏩</span>
+          </button>
+        </div>
+        
+        <div className="playback-rate">
+          <span>再生速度: </span>
+          <select defaultValue="1.0" className="playback-select">
+            <option value="0.5">0.5x</option>
+            <option value="0.75">0.75x</option>
+            <option value="1.0">1.0x</option>
+            <option value="1.25">1.25x</option>
+            <option value="1.5">1.5x</option>
+            <option value="2.0">2.0x</option>
+          </select>
+        </div>
+      </div>
+      
+      {/* Hidden audio element for actual playback */}
       <audio
         ref={audioRef}
         src={audioSrc}
         preload="metadata"
         className="hidden"
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
       />
-      
-      {/* 再生情報 */}
-      <div className="flex items-center mb-4 space-x-3">
-        <div className="flex-shrink-0">
-          <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gray-100 rounded-lg overflow-hidden shadow-sm">
-            {coverImage ? (
-              <img
-                src={coverImage}
-                alt={title}
-                className="w-full h-full object-cover transition-transform hover:scale-105"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = '/default-audio-cover.jpg';
-                }}
-              />
-            ) : (
-              <div className="w-full h-full bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center">
-                <svg className="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1.728l2.638-3.276A6 6 0 0018 8V3z" />
-                </svg>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="flex-grow min-w-0">
-          <h3 className="text-sm sm:text-base font-medium text-gray-900 truncate">{title}</h3>
-          <p className="text-xs text-gray-500 truncate">{author}</p>
-        </div>
-      </div>
-      
-      {/* プログレスバー */}
-      <div className="mb-2">
-        <div 
-          ref={progressBarRef}
-          className="h-1.5 bg-gray-200 rounded-full cursor-pointer overflow-hidden"
-          onClick={handleProgressBarClick}
-          onMouseDown={startSeeking}
-          onMouseUp={stopSeeking}
-          onMouseLeave={stopSeeking}
-        >
-          <div 
-            className="h-full bg-blue-600 transition-all duration-200 ease-out"
-            style={{ width: `${progressWidth}%` }}
-          />
-        </div>
-      </div>
-      
-      {/* 再生時間とコントロール */}
-      <div className="flex items-center justify-between">
-        <span className="text-xs text-gray-500">
-          {formatTime(currentTime)}
-        </span>
-        
-        <div className="flex items-center space-x-4">
-          <button 
-            onClick={togglePlayPause}
-            className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
-            aria-label={isPlaying ? '一時停止' : '再生'}
-          >
-            {isPlaying ? (
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-              </svg>
-            ) : (
-              <svg className="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-              </svg>
-            )}
-          </button>
-        </div>
-        
-        <span className="text-xs text-gray-500">
-          {formatTime(duration)}
-        </span>
-      </div>
     </div>
   );
 };
